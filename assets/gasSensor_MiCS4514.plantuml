@@ -1,0 +1,25 @@
+@startuml
+
+partition "**Working Source (Simple Flow)**"{
+start
+
+: Include gas sensor MiCS-4514 library;
+: Set a calibration time of 3 minutes;
+
+repeat
+if (is Sensor connected successfully?) then (yes)
+    if (is Sensor in Wake Up Mode) then (yes)
+        : Read the required gas data from the sensor in a interval;
+        : Display the data in PPM (Parts Per Million) unit;
+    else (No)
+        :Display an alert message regarding Sensor Mode;
+    endif
+else (No)
+    : Display an alert message regarding connectivity;
+
+endif
+
+repeat while
+}
+
+@enduml
