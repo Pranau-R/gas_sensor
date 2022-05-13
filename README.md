@@ -37,9 +37,9 @@ This is a gas level measurement using gas sensor (MiCS-4514). We used Arduino Me
 
 ![gasLevelMeasurement_mics4514_connectionDiagram](gas_sensor_connection_diagram.png)
 
-    It is a simple connection between MiCS-4514 and Arduino Mega 2560. The Vcc and GND pin of MiCS-4514 is connected to 5v and GND pin of Arduino Mega 2560 respectively for Senor input.
+- It is a simple connection between MiCS-4514 and Arduino Mega 2560. The Vcc and GND pin of MiCS-4514 is connected to 5v and GND pin of Arduino Mega 2560 respectively for Senor input.
 
-    Similarly, the SDA and SCL pin of MiCS-4514 is connected to 20th and 21st pin (also known as SDA and SCL pin respectively) of Arduino Mega 2560 respectively.
+- Similarly, the SDA and SCL pin of MiCS-4514 is connected to 20th and 21st pin (also known as SDA and SCL pin respectively) of Arduino Mega 2560 respectively.
 
 # Following is the flowchart for the Source:
 
