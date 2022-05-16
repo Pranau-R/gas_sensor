@@ -15,11 +15,16 @@ Author:
 */
 
 #include <DFRobot_MICS.h>
+#include <DFRobot_OxygenSensor.h>
 
 #define CALIBRATION_TIME   3
 
 #define MICS_I2C_ADDRESS MICS_ADDRESS_0
 DFRobot_MICS_I2C mics(&Wire, MICS_I2C_ADDRESS);
+
+#define Oxygen_IICAddress ADDRESS_3
+#define COLLECT_NUMBER  10
+DFRobot_OxygenSensor oxygen;
 
 /****************************************************************************\
 |
@@ -46,10 +51,17 @@ void setup()
   while(!Serial);
   while(!mics.begin())
     {
-    Serial.println ("No Device!");
+    Serial.println ("MiCS-4145 not connected!");
     delay(2000);
     }
-  Serial.println("Device connected successfully!");
+  Serial.println("MiCS-4514 connected successfully!");
+
+  while(!oxygen.begin(Oxygen_IICAddress))
+    {
+    Serial.println("Oxygen Sensor not connected!");
+    delay(1000);
+    }
+  Serial.println("Oxygen Sensor connected successfully!");
 
   uint8_t mode = mics.getPowerState();
 
@@ -63,11 +75,9 @@ void setup()
     Serial.println("The sensor is in Wake Up Mode!");
     }
 
-  while(!mics.warmUpTime(CALIBRATION_TIME))
-    {
-    Serial.println("Please wait until the warm-up time is over!");
-    delay(5000);
-    }
+  Serial.println("Please wait until the warm-up time '3 minutes' is over!");
+  while(!mics.warmUpTime(CALIBRATION_TIME));
+
   Serial.println("The Data of different gases are:");
   delay(3000);
   }
@@ -131,7 +141,26 @@ void loop()
       }
     delay(2000);
     }
+  
+  Serial.println();
+  float oxygenData = oxygen.getOxygenData(COLLECT_NUMBER);
 
+  Serial.print("Oxygen = ");
+  Serial.print(oxygenData);
+  Serial.println(" %vol");
+  count = 0;
+
+    while (count <= 1)
+      {
+      digitalWrite(LED_BUILTIN, HIGH);
+      delay (1000);
+      digitalWrite(LED_BUILTIN, LOW);
+      delay (1000);
+      ++count;
+      }
+    delay(2000);
+
+  Serial.println();
   float gasDataC2H5OH = mics.getGasData(C2H5OH);
 
   if (gasDataC2H5OH >= 0)
@@ -172,6 +201,25 @@ void loop()
     delay(2000);
     }
 
+  Serial.println();
+  oxygenData = oxygen.getOxygenData(COLLECT_NUMBER);
+
+  Serial.print("Oxygen = ");
+  Serial.print(oxygenData);
+  Serial.println(" %vol");
+  count = 0;
+
+    while (count <= 1)
+      {
+      digitalWrite(LED_BUILTIN, HIGH);
+      delay (1000);
+      digitalWrite(LED_BUILTIN, LOW);
+      delay (1000);
+      ++count;
+      }
+    delay(2000);
+
+  Serial.println();
   float gasDataNH3 = mics.getGasData(NH3);
 
   if (gasDataNH3 >= 0)
@@ -211,5 +259,24 @@ void loop()
       }
     delay (2000);
     }
+
+  Serial.println();
+  oxygenData = oxygen.getOxygenData(COLLECT_NUMBER);
+
+  
+  Serial.print("Oxygen = ");
+  Serial.print(oxygenData);
+  Serial.println(" %vol");
+  count = 0;
+
+    while (count <= 1)
+      {
+      digitalWrite(LED_BUILTIN, HIGH);
+      delay (1000);
+      digitalWrite(LED_BUILTIN, LOW);
+      delay (1000);
+      ++count;
+      }
+    delay(2000);
   delay (2000);
   }
